@@ -18,4 +18,5 @@ public:
 	static void Active();
 	static bool isActive();
 	static void Draw();
+
 };

@@ -160,6 +160,7 @@
     <ClInclude Include="Data\GameData.hpp" />
     <ClInclude Include="Drawing.h" />
     <ClInclude Include="Enum\EnumGameMaps.hpp" />
+    <ClInclude Include="font.h" />
     <ClInclude Include="ImGui\imconfig.h" />
     <ClInclude Include="ImGui\imgui.h" />
     <ClInclude Include="ImGui\imgui_impl_dx11.h" />

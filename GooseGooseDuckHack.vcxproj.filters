@@ -137,6 +137,9 @@
     <ClInclude Include="Enum\EnumGameMaps.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

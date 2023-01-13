@@ -1,4 +1,5 @@
 ﻿#include "UI.h"
+#include"font.h"
 
 ID3D11Device* UI::pd3dDevice = nullptr;
 ID3D11DeviceContext* UI::pd3dDeviceContext = nullptr;
@@ -369,7 +370,6 @@ void UI::Render(HINSTANCE instance, INT cmd_show)
         ImGui::GetIO().Fonts->AddFontDefault(&cfg);
     }
 
-
     //保存GUI窗口信息
     ImGui::GetIO().IniFilename = "imgui.ini";
 
@@ -398,7 +398,7 @@ void UI::Render(HINSTANCE instance, INT cmd_show)
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
-        {
+        {      
             Drawing::Draw();
         }
 

@@ -2,7 +2,9 @@
 
 #include "Drawing.h"
 #include "client.hpp"
-#include"imguiCustom.h"
+
+
+
 
 #define IM_ARRAYSIZE(_ARR) ((int)(sizeof(_ARR) / sizeof(*(_ARR)))) 
 
@@ -21,6 +23,7 @@ extern Client* g_client;
 
 void drawMinimap();
 void drawMenu();
+void drawMenu2();
 void drawESP();
 
 void Drawing::Active()
@@ -33,10 +36,12 @@ bool Drawing::isActive()
     return (hackSettings.guiSettings.b_draw == true);
 }
 
+
 void Drawing::Draw() {
     static bool* b_previousEnableMenu = nullptr;
     if (isActive())
     {
+
         if (hackSettings.guiSettings.b_debug) {
             ImGui::ShowDemoWindow();
         }
@@ -48,7 +53,7 @@ void Drawing::Draw() {
 
         //绘制菜单
         if (hackSettings.guiSettings.b_enableMenu) {
-            drawMenu();
+            drawMenu2();
         }
 
         //ESP
@@ -140,9 +145,10 @@ bool drawOtherPlayersOnMap(GameMap& map, const ImVec2& mapLeftBottomPointOnScree
 void drawMinimap() {
     ImGuiIO& io = ImGui::GetIO();
 
+
     //设置小地图初始化大小
     ImGui::SetNextWindowSize({ 500.0f, 400.0f }, ImGuiCond_Once);
-    ImGui::Begin("Minimap");
+    ImGui::Begin("Minimap",NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
 
     GameMap* gameMap = nullptr;
 
@@ -157,9 +163,6 @@ void drawMinimap() {
         str("Black Swan","黑天鹅"),
         str("SS MotherGoose","老妈鹅星球飞船")
     };
-
-    static bool toggles[] = { true, false, false, false, false };
-
 
     static int selected_map = -1;
 
@@ -347,21 +350,330 @@ void drawMinimap() {
     ImGui::End();
 }
 
-void updateColors()
-{
-    switch (hackSettings.guiSettings.menuColors) {
-    case 0: ImGui::StyleColorsDark(); break;
-    case 1: ImGui::StyleColorsLight(); break;
-    case 2: ImGui::StyleColorsClassic(); break;
+void drawMenu2() {
+
+    PlayerController* playerController = &g_client->localPlayer.playerController;
+
+    ImGuiStyle& Style = ImGui::GetStyle();
+    auto Color = Style.Colors;
+
+    static bool WinPos = true;//用于初始化窗口位置
+    int Screen_Width{ GetSystemMetrics(SM_CXSCREEN) };//获取显示器的宽
+    int Screen_Heigth{ GetSystemMetrics(SM_CYSCREEN) };//获取显示器的高
+
+    static bool CheckBox_1 = false, CheckBox_2 = true;
+    static int InputInt = 0;
+    static int Comb = 0;
+    static float InputFloat = 0;
+    static char InputString[80] = { '?' };
+
+    static int Tab = 0;
+    enum Tab
+    {
+        Info,
+        Players,
+        Misc,
+        README,
+        ESP
+    };
+
+    static int Color_ = 0;
+    enum Color_
+    {
+        Red,
+        Green,
+        Blue,
+        Orange
+    };
+
+    switch (Color_)
+    {
+    case Color_::Red:
+        Style.ChildRounding = 8.0f;
+        Style.FrameRounding = 5.0f;
+
+        Color[ImGuiCol_Button] = ImColor(192, 51, 74, 255);
+        Color[ImGuiCol_ButtonHovered] = ImColor(212, 71, 94, 255);
+        Color[ImGuiCol_ButtonActive] = ImColor(172, 31, 54, 255);
+
+        Color[ImGuiCol_FrameBg] = ImColor(54, 54, 54, 150);
+        Color[ImGuiCol_FrameBgActive] = ImColor(42, 42, 42, 150);
+        Color[ImGuiCol_FrameBgHovered] = ImColor(100, 100, 100, 150);
+
+        Color[ImGuiCol_CheckMark] = ImColor(192, 51, 74, 255);
+
+        Color[ImGuiCol_SliderGrab] = ImColor(192, 51, 74, 255);
+        Color[ImGuiCol_SliderGrabActive] = ImColor(172, 31, 54, 255);
+
+        Color[ImGuiCol_Header] = ImColor(192, 51, 74, 255);
+        Color[ImGuiCol_HeaderHovered] = ImColor(212, 71, 94, 255);
+        Color[ImGuiCol_HeaderActive] = ImColor(172, 31, 54, 255);
+        break;
+    case Color_::Green:
+        Style.ChildRounding = 8.0f;
+        Style.FrameRounding = 5.0f;
+
+        Color[ImGuiCol_Button] = ImColor(10, 105, 56, 255);
+        Color[ImGuiCol_ButtonHovered] = ImColor(30, 125, 76, 255);
+        Color[ImGuiCol_ButtonActive] = ImColor(0, 95, 46, 255);
+
+        Color[ImGuiCol_FrameBg] = ImColor(54, 54, 54, 150);
+        Color[ImGuiCol_FrameBgActive] = ImColor(42, 42, 42, 150);
+        Color[ImGuiCol_FrameBgHovered] = ImColor(100, 100, 100, 150);
+
+        Color[ImGuiCol_CheckMark] = ImColor(10, 105, 56, 255);
+
+        Color[ImGuiCol_SliderGrab] = ImColor(10, 105, 56, 255);
+        Color[ImGuiCol_SliderGrabActive] = ImColor(0, 95, 46, 255);
+
+        Color[ImGuiCol_Header] = ImColor(10, 105, 56, 255);
+        Color[ImGuiCol_HeaderHovered] = ImColor(30, 125, 76, 255);
+        Color[ImGuiCol_HeaderActive] = ImColor(0, 95, 46, 255);
+
+        break;
+    case Color_::Blue:
+        Style.ChildRounding = 8.0f;
+        Style.FrameRounding = 5.0f;
+
+        Color[ImGuiCol_Button] = ImColor(51, 120, 255, 255);
+        Color[ImGuiCol_ButtonHovered] = ImColor(71, 140, 255, 255);
+        Color[ImGuiCol_ButtonActive] = ImColor(31, 100, 225, 255);
+
+        Color[ImGuiCol_FrameBg] = ImColor(54, 54, 54, 150);
+        Color[ImGuiCol_FrameBgActive] = ImColor(42, 42, 42, 150);
+        Color[ImGuiCol_FrameBgHovered] = ImColor(100, 100, 100, 150);
+
+        Color[ImGuiCol_CheckMark] = ImColor(51, 120, 255, 255);
+
+        Color[ImGuiCol_SliderGrab] = ImColor(51, 120, 255, 255);
+        Color[ImGuiCol_SliderGrabActive] = ImColor(31, 100, 225, 255);
+
+        Color[ImGuiCol_Header] = ImColor(51, 120, 255, 255);
+        Color[ImGuiCol_HeaderHovered] = ImColor(71, 140, 255, 255);
+        Color[ImGuiCol_HeaderActive] = ImColor(31, 100, 225, 255);
+
+        break;
+    case Color_::Orange://233,87,33
+        Style.ChildRounding = 8.0f;
+        Style.FrameRounding = 5.0f;
+
+        Color[ImGuiCol_Button] = ImColor(233, 87, 33, 255);
+        Color[ImGuiCol_ButtonHovered] = ImColor(253, 107, 53, 255);
+        Color[ImGuiCol_ButtonActive] = ImColor(213, 67, 13, 255);
+
+        Color[ImGuiCol_FrameBg] = ImColor(54, 54, 54, 150);
+        Color[ImGuiCol_FrameBgActive] = ImColor(42, 42, 42, 150);
+        Color[ImGuiCol_FrameBgHovered] = ImColor(100, 100, 100, 150);
+
+        Color[ImGuiCol_CheckMark] = ImColor(233, 87, 33, 255);
+
+        Color[ImGuiCol_SliderGrab] = ImColor(233, 87, 33, 255);
+        Color[ImGuiCol_SliderGrabActive] = ImColor(213, 67, 13, 255);
+
+        Color[ImGuiCol_Header] = ImColor(233, 87, 33, 255);
+        Color[ImGuiCol_HeaderHovered] = ImColor(253, 107, 53, 255);
+        Color[ImGuiCol_HeaderActive] = ImColor(213, 67, 13, 255);
+
+        break;
+    }
+
+    if (WinPos)//初始化窗口
+    {
+        ImGui::SetNextWindowPos({ float(Screen_Width - 600) / 2,float(Screen_Heigth - 400) / 2 });
+        WinPos = false;//初始化完毕
+    }
+
+    ImGui::Begin(str("Main", "主菜单"), NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);//开始绘制窗口
+    ImGui::SetWindowSize({ 600.0f,400.0f });//设置窗口大小
+
+
+    {
+        ImGui::GetWindowDrawList()->AddLine({ ImGui::GetWindowPos().x + 420.0f,ImGui::GetWindowPos().y + 10.0f }, { ImGui::GetWindowPos().x + 420.0f,ImGui::GetWindowPos().y + 390.0f }, ImColor(100, 100, 100, 255));
+
+        ImGui::SetCursorPos({ 430.0f,20.0f });
+
+        ImGui::TextColored(Color[ImGuiCol_Button], str("Goose Goose Duck", "鹅鸭杀助手"));
+
+
+
+
+        ImGui::SetCursorPos({ 430.0f,65.0f });
+
+        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::Info ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        if (ImGui::Button(str("LocalPlayer Info", "本地玩家信息"), { 150.0f,40.0f }))
+        {
+            Tab = Tab::Info;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::Players ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPos({ 430.0f,115.0f });
+        if (ImGui::Button(str("Players Info", "角色信息"), { 150.0f,40.0f }))
+        {
+            Tab = Tab::Players;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::Misc ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPos({ 430.0f,165.0f });
+        if (ImGui::Button(str("Misc", "功能类"), { 150.0f,40.0f }))
+        {
+            Tab = Tab::Misc;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::Misc ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPos({ 430.0f,165.0f });
+        if (ImGui::Button(str("esp", "透视"), { 150.0f,40.0f }))
+        {
+            Tab = Tab::ESP;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::README ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPos({ 430.0f,215.0f });
+        if (ImGui::Button(str("README", "说明"), { 150.0f,40.0f }))
+        {
+            Tab = Tab::README;
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPos({ 430.0f,265.0f });
+        if (ImGui::Button(str("EXIT", "退出"), { 150.0f,40.0f }))
+        {
+            exit(0);
+        }
+        ImGui::PopStyleColor();
+
+        ImGui::SetCursorPos({ 430.0f,330.0f });
+        ImGui::Text(str("Style", "主题颜色"));
+        ImGui::SameLine();
+        ImGui::SetCursorPos({ 505.0f,328.0f });
+        ImGui::SetNextItemWidth(80.0f);
+        ImGui::Combo(" ", &Color_, str("RED\0GREEN\0BLUE\0ORANGE", "红色\0绿色\0蓝色\0橙色"));
+
+        time_t t = time(0);
+        char tmp[32] = { NULL };
+        strftime(tmp, sizeof(tmp), "%Y-%m-%d %H:%M", localtime(&t));
+
+        ImGui::SetCursorPos({ 430.0f,365.0f });
+        ImGui::TextColored(Color[ImGuiCol_Button], "%s", tmp);
+    }
+    ImGui::SetCursorPos({ 10.0f,10.0f });
+    ImGui::BeginChild("enble", { 400.0f,380.0f }, true);
+    switch (Tab)
+    {
+    case Tab::Info:
+        {
+            ImGui::Text(playerController->nickname.c_str());
+
+            float minSpeed = hackSettings.gameOriginalData.f_baseMovementSpeed;
+            if (minSpeed <= 0) {
+                minSpeed = 5.0f;
+            }
+
+            ImGui::SliderFloat(
+                str("Movement speed", "移速"),
+                &hackSettings.guiSettings.f_baseMovementSpeed,
+                minSpeed,
+                minSpeed * 2
+            );
+
+            ImGui::Text("{%.2f, %.2f}", playerController->v3_position.x, playerController->v3_position.y);
+        }
+        
+
+        break;
+    case Tab::Players:
+        {
+            if (ImGui::BeginTable("table1", 5,
+                ImGuiTableFlags_SizingStretchSame | ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg
+            ))
+            {
+                ImGui::TableSetupColumn(str("Nickname", "昵称"));
+                ImGui::TableSetupColumn(str("Role", "角色"));
+                ImGui::TableSetupColumn(str("Killed this round", "本轮杀过人"));
+                ImGui::TableSetupColumn(str("Death Time", "死亡时间"));
+                ImGui::TableSetupColumn(str("Pos", "坐标"));
+                //ImGui::TableSetupColumn("Three");
+                ImGui::TableHeadersRow();
+
+                PlayerController* player = g_client->playerControllers;
+                for (int row = 0; row < g_client->n_players; (row++, player++))
+                {
+                    //跳过无效玩家和本地玩家
+                    if (player->address == NULL || player->b_isLocal) {
+                        continue;
+                    }
+                    ImGui::TableNextRow();
+
+                    ImGui::TableNextColumn(); ImGui::Text(player->nickname.c_str());
+                    ImGui::TableNextColumn(); ImGui::Text(player->roleName.c_str());
+                    if (player->b_hasKilledThisRound) {
+                        ImGui::TableNextColumn(); ImGui::Text(str("Yes", "是"));
+                    }
+                    else {
+                        ImGui::TableNextColumn(); ImGui::Text(str("", ""));
+                    }
+                    if (player->i_timeOfDeath != 0) {
+                        ImGui::TableNextColumn(); ImGui::Text("%d", player->i_timeOfDeath);
+                    }
+                    else {
+                        ImGui::TableNextColumn(); ImGui::Text("");
+                    }
+                    ImGui::TableNextColumn(); ImGui::Text("(%.1f, %.1f)", player->v3_position.x, player->v3_position.y);
+
+                }
+                ImGui::EndTable();
+        }
+        
+            break;
+    case Tab::Misc:
+        {
+            ImGui::Checkbox(str("Remove fog of war", "隐藏战争迷雾"), &hackSettings.disableFogOfWar);
+            HelpMarker(
+                str("Remove shadows and let you see other players behind walls", "可以透过墙看到和听到其他玩家，隐藏视野阴影")
+            );
+
+            ImGui::Checkbox(str("Noclip", "穿墙"), &hackSettings.guiSettings.b_alwaysEnableNoclip);
+            HelpMarker(
+                str("Walk through anything\nYou can press Left ALT to temporarily enable noclip", "穿墙模式\n长按左ALT键来临时穿墙")
+            );
+        }
+        
+        break;
+    case Tab::ESP:
+        {
+            ImGui::Text(str("Button below is just for testing if overlay works", "下面的按钮目前只是为了测试绘制能否正常工作"));
+            ImGui::Checkbox(str("Enable ESP", "全局开关"), &hackSettings.guiSettings.b_enableESP);
+            HelpMarker(
+                str("Create Issue to report bug if you can't see two green lines and yellow rect line", "如果你看不到屏幕上有横竖两条绿线以及环绕整个显示器的黄色矩形的话,请到Issue提交bug")
+            );
+        }
+  
+        break;
+    case Tab::README:
+        {
+            ImGui::Text(str("This an open-source project from Liuhaixv", "这是一个来自Liuhaixv的开源项目"));
+            ImGui::SameLine();
+            if (ImGui::Button(str("Link to project", "查看项目"))) {
+                ShellExecute(0, 0, "https://github.com/Liuhaixv/Goose_Goose_Duck_Hack", 0, 0, SW_SHOW);
+            }
+        }   
+        break;
+        }
+        ImGui::EndChild();
     }
 }
+
+
 
 void drawMenu() {
     bool b_open = true;
     bool* ptr_bOpen = &b_open;
-    ImGui::SetNextWindowSize({ 500.0f, 400.0f }, ImGuiCond_Once);
     ImGui::Begin(str("Main", "主菜单"));
-
+    ImGui::SetWindowSize({ 600.0f,400.0f });
     ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None;
     if (ImGui::BeginTabBar("Main menu", tab_bar_flags))
     {
