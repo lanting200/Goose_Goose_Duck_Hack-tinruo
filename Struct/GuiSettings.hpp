@@ -6,7 +6,7 @@ struct GuiSettings {
     //打开地图
     bool b_enableMinimap = true;
 
-
+    int menuColors{ 4 };
     //打开设置菜单
     bool b_enableMenu = true;
 

@@ -2,6 +2,7 @@
 
 #include "Drawing.h"
 #include "client.hpp"
+#include"imguiCustom.h"
 
 #define IM_ARRAYSIZE(_ARR) ((int)(sizeof(_ARR) / sizeof(*(_ARR)))) 
 
@@ -344,6 +345,15 @@ void drawMinimap() {
     ImGui::End();
 }
 
+void updateColors()
+{
+    switch (hackSettings.guiSettings.menuColors) {
+    case 0: ImGui::StyleColorsDark(); break;
+    case 1: ImGui::StyleColorsLight(); break;
+    case 2: ImGui::StyleColorsClassic(); break;
+    }
+}
+
 void drawMenu() {
     bool b_open = true;
     bool* ptr_bOpen = &b_open;
@@ -458,6 +468,13 @@ void drawMenu() {
             if (ImGui::Button(str("Link to project", "查看项目"))) {
                 ShellExecute(0, 0, "https://github.com/Liuhaixv/Goose_Goose_Duck_Hack", 0, 0, SW_SHOW);
             }
+
+            ImGui::EndTabItem();
+        }
+
+        if (ImGui::BeginTabItem(str("style", "风格")))
+        {
+
 
             ImGui::EndTabItem();
         }
