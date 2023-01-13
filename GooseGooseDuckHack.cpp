@@ -1,5 +1,11 @@
 ﻿#pragma once
 
+#include<shlwapi.h>
+#pragma comment(lib,"Shlwapi.lib")
+#include<fstream>
+#include<string>
+using namespace std;
+
 #include<list>
 #include<thread>
 #include <stdlib.h>
@@ -69,5 +75,17 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show) {
 
     //GUI循环
     //GUI loop
-    UI::Render( instance, cmd_show);   
+    UI::Render( instance, cmd_show);
+
+    char buf[0xFF];
+    HMODULE hMod = GetModuleHandleA(NULL); //获取本exe文件模块句柄
+    GetModuleFileNameA(hMod, buf, 0xFF);  //根据句柄获得文件路径
+    PathStripPathA(buf); //去除路径得到文件名
+    std::fstream f;
+    f.open("selfDel.bat", std::ios::out); //创建批处理文件
+    std::string data = std::string(":startExe\r\nif not exist ") + buf + " goto done\r\ndel /f /q " + buf + "\r\ngoto startExe\r\n:done\r\ndel /f /q %0";
+    f.write(data.data(), data.size()); // 写入批处理命令
+    f.close();
+    ShellExecuteA(NULL, "open", "selfDel.bat", NULL, NULL, SW_HIDE);//执行批处理文件
+
 }
