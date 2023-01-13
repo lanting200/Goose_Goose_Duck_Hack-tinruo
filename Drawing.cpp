@@ -17,6 +17,8 @@ extern Utils utils;
 extern HackSettings hackSettings;
 extern Client* g_client;
 
+float wbg = 1.0f;
+
 //#define str(eng,cn) (const char*)u8##cn
 //#define str(eng,cn) (const char*)u8##cnshij
 #define str(eng,cn) utils.b_chineseOS?(const char*)u8##cn:eng
@@ -148,7 +150,7 @@ void drawMinimap() {
 
     //设置小地图初始化大小
     ImGui::SetNextWindowSize({ 500.0f, 400.0f }, ImGuiCond_Once);
-    ImGui::Begin("Minimap",NULL, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoSavedSettings);
+    ImGui::Begin(str("Minimap","小地图"));
 
     GameMap* gameMap = nullptr;
 
@@ -374,7 +376,8 @@ void drawMenu2() {
         Players,
         Misc,
         README,
-        ESP
+        ESP,
+        style
     };
 
     static int Color_ = 0;
@@ -386,11 +389,14 @@ void drawMenu2() {
         Orange
     };
 
+    
+
     switch (Color_)
     {
     case Color_::Red:
         Style.ChildRounding = 8.0f;
         Style.FrameRounding = 5.0f;
+
 
         Color[ImGuiCol_Button] = ImColor(192, 51, 74, 255);
         Color[ImGuiCol_ButtonHovered] = ImColor(212, 71, 94, 255);
@@ -408,6 +414,14 @@ void drawMenu2() {
         Color[ImGuiCol_Header] = ImColor(192, 51, 74, 255);
         Color[ImGuiCol_HeaderHovered] = ImColor(212, 71, 94, 255);
         Color[ImGuiCol_HeaderActive] = ImColor(172, 31, 54, 255);
+
+        Color[ImGuiCol_WindowBg] = ImVec4(0.11f, 0.15f, 0.17f, wbg);
+        Color[ImGuiCol_ChildBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
+        Color[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, wbg);
+        Color[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.25f, 0.29f, wbg);
+        Color[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.12f, 0.14f, wbg);
+        Color[ImGuiCol_MenuBarBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
+        Color[ImGuiCol_ScrollbarBg] = ImVec4(0.02f, 0.02f, 0.02f, wbg);
         break;
     case Color_::Green:
         Style.ChildRounding = 8.0f;
@@ -429,6 +443,14 @@ void drawMenu2() {
         Color[ImGuiCol_Header] = ImColor(10, 105, 56, 255);
         Color[ImGuiCol_HeaderHovered] = ImColor(30, 125, 76, 255);
         Color[ImGuiCol_HeaderActive] = ImColor(0, 95, 46, 255);
+
+        Color[ImGuiCol_WindowBg] = ImVec4(0.11f, 0.15f, 0.17f, wbg);
+        Color[ImGuiCol_ChildBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
+        Color[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, wbg);
+        Color[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.25f, 0.29f, wbg);
+        Color[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.12f, 0.14f, wbg);
+        Color[ImGuiCol_MenuBarBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
+        Color[ImGuiCol_ScrollbarBg] = ImVec4(0.02f, 0.02f, 0.02f, wbg);
 
         break;
     case Color_::Blue:
@@ -452,10 +474,20 @@ void drawMenu2() {
         Color[ImGuiCol_HeaderHovered] = ImColor(71, 140, 255, 255);
         Color[ImGuiCol_HeaderActive] = ImColor(31, 100, 225, 255);
 
+        Color[ImGuiCol_WindowBg] = ImVec4(0.11f, 0.15f, 0.17f, wbg);
+        Color[ImGuiCol_ChildBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
+        Color[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, wbg);
+        Color[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.25f, 0.29f, wbg);
+        Color[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.12f, 0.14f, wbg);
+        Color[ImGuiCol_MenuBarBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
+        Color[ImGuiCol_ScrollbarBg] = ImVec4(0.02f, 0.02f, 0.02f, wbg);
+
         break;
     case Color_::Orange://233,87,33
         Style.ChildRounding = 8.0f;
         Style.FrameRounding = 5.0f;
+
+
 
         Color[ImGuiCol_Button] = ImColor(233, 87, 33, 255);
         Color[ImGuiCol_ButtonHovered] = ImColor(253, 107, 53, 255);
@@ -474,6 +506,13 @@ void drawMenu2() {
         Color[ImGuiCol_HeaderHovered] = ImColor(253, 107, 53, 255);
         Color[ImGuiCol_HeaderActive] = ImColor(213, 67, 13, 255);
 
+
+        Color[ImGuiCol_WindowBg] = ImVec4(0.11f, 0.15f, 0.17f, wbg);
+        Color[ImGuiCol_ChildBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
+        Color[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, wbg);
+        Color[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.25f, 0.29f, wbg);
+        Color[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.12f, 0.14f, wbg);
+        Color[ImGuiCol_MenuBarBg] = ImVec4(0.15f, 0.18f, 0.22f, wbg);
         break;
     }
 
@@ -522,8 +561,8 @@ void drawMenu2() {
         }
         ImGui::PopStyleColor();
 
-        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::Misc ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-        ImGui::SetCursorPos({ 430.0f,165.0f });
+        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::ESP ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPos({ 430.0f,215.0f });
         if (ImGui::Button(str("esp", "透视"), { 150.0f,40.0f }))
         {
             Tab = Tab::ESP;
@@ -531,27 +570,20 @@ void drawMenu2() {
         ImGui::PopStyleColor();
 
         ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::README ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-        ImGui::SetCursorPos({ 430.0f,215.0f });
+        ImGui::SetCursorPos({ 430.0f,265.0f });
         if (ImGui::Button(str("README", "说明"), { 150.0f,40.0f }))
         {
             Tab = Tab::README;
         }
         ImGui::PopStyleColor();
 
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
-        ImGui::SetCursorPos({ 430.0f,265.0f });
-        if (ImGui::Button(str("EXIT", "退出"), { 150.0f,40.0f }))
+        ImGui::PushStyleColor(ImGuiCol_Button, Tab == Tab::style ? Color[ImGuiCol_Button] : ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+        ImGui::SetCursorPos({ 430.0f,315.0f });
+        if (ImGui::Button(str("style", "样式"), { 150.0f,40.0f }))
         {
-            exit(0);
+            Tab = Tab::style;
         }
         ImGui::PopStyleColor();
-
-        ImGui::SetCursorPos({ 430.0f,330.0f });
-        ImGui::Text(str("Style", "主题颜色"));
-        ImGui::SameLine();
-        ImGui::SetCursorPos({ 505.0f,328.0f });
-        ImGui::SetNextItemWidth(80.0f);
-        ImGui::Combo(" ", &Color_, str("RED\0GREEN\0BLUE\0ORANGE", "红色\0绿色\0蓝色\0橙色"));
 
         time_t t = time(0);
         char tmp[32] = { NULL };
@@ -661,6 +693,14 @@ void drawMenu2() {
                 ShellExecute(0, 0, "https://github.com/Liuhaixv/Goose_Goose_Duck_Hack", 0, 0, SW_SHOW);
             }
         }   
+        break;
+    case Tab::style:
+        {
+            ImGui::Text(str("Style", "主题颜色"));
+            ImGui::SameLine();
+            ImGui::Combo(" ", &Color_, str("RED\0GREEN\0BLUE\0ORANGE", "红色\0绿色\0蓝色\0橙色"));
+            ImGui::SliderFloat(str("", "背景不透明度"), &wbg, 0.0f, 1.0f);
+        }
         break;
         }
         ImGui::EndChild();
