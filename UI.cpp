@@ -286,6 +286,9 @@ void UI::Render(HINSTANCE instance, INT cmd_show)
         nullptr
     );
 
+
+
+
     UI::hwnd = hwnd;
 
     SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), BYTE(255), LWA_ALPHA);

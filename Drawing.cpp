@@ -353,7 +353,6 @@ void drawMinimap() {
 }
 
 void drawMenu2() {
-
     PlayerController* playerController = &g_client->localPlayer.playerController;
 
     ImGuiStyle& Style = ImGui::GetStyle();
@@ -710,6 +709,7 @@ void drawMenu2() {
 
 
 void drawMenu() {
+
     bool b_open = true;
     bool* ptr_bOpen = &b_open;
     ImGui::Begin(str("Main", "主菜单"));
