@@ -11,7 +11,7 @@ using namespace std;
 #include <stdlib.h>
 #include <tchar.h>
 
-#include"client.hpp"
+#include"Client.hpp"
 #include"utils.hpp"
 
 #include"Struct/HackSettings.hpp"
@@ -41,6 +41,8 @@ Hack hack;
 //settings
 HackSettings hackSettings;
 Client* g_client;
+
+
 
 INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show) {
     {

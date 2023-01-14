@@ -128,6 +128,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <Optimization>Disabled</Optimization>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,6 +137,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Class\Hack.hpp" />
@@ -179,8 +183,8 @@
     <ClInclude Include="Enum\OpenProcessState.hpp" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="utils.hpp" />
-    <ClInclude Include="client.hpp" />
-    <ClInclude Include="memory.hpp" />
+    <ClInclude Include="Client.hpp" />
+    <ClInclude Include="Memory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
