@@ -4,7 +4,7 @@
 #pragma comment(lib,"Shlwapi.lib")
 #include<fstream>
 #include<string>
-using namespace std;
+
 
 #include<list>
 #include<thread>
@@ -22,7 +22,7 @@ using namespace std;
 #include"./Class/GameProcessUpdater.hpp"
 #include"./Class/BytesPatchUpdater.hpp"
 
-#include"./Class/PlayerController.hpp"
+#include"./Class/PlayerController.h"
 
 //Windows
 #include<Windows.h>
