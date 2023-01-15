@@ -20,4 +20,7 @@ struct GuiSettings {
 
     //debugmode
     bool b_debug = false;
+
+    bool Byobs = true;
 };
+

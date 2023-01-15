@@ -440,7 +440,45 @@ void drawMinimap() {
     ImGui::End();
 }
 
+typedef struct
+{
+    HWND hWnd;
+    DWORD dwPid;
+}WNDINFO;
+
+
+BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM lParam)
+{
+    WNDINFO* pInfo = (WNDINFO*)lParam;
+    DWORD dwProcessId = 0;
+    GetWindowThreadProcessId(hWnd, &dwProcessId);
+    if (dwProcessId == pInfo->dwPid)
+    {
+        pInfo->hWnd = hWnd;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
+
 void drawMenu2() {
+    DWORD Pid = GetCurrentProcessId();
+    WNDINFO info = { 0 };
+    info.hWnd = NULL;
+    info.dwPid = Pid;
+    EnumWindows(EnumWindowsProc, (LPARAM)&info);
+
+    if (hackSettings.guiSettings.Byobs)
+    {
+        SetWindowDisplayAffinity(info.hWnd, WDA_EXCLUDEFROMCAPTURE);
+    }
+    else
+    {
+        SetWindowDisplayAffinity(info.hWnd, WDA_NONE);
+    }
+
+
     PlayerController* playerController = &g_client->localPlayer.playerController;
 
     ImGuiStyle& Style = ImGui::GetStyle();
@@ -800,6 +838,11 @@ void drawMenu2() {
             ImGui::Checkbox(str("Noclip", "穿墙"), &hackSettings.guiSettings.b_alwaysEnableNoclip);
             HelpMarker(
                 str("Walk through anything\nYou can press Left ALT to temporarily enable noclip", "穿墙模式\n长按左ALT键来临时穿墙")
+            );
+
+            ImGui::Checkbox(str("BypassOBS", "过直播"), &hackSettings.guiSettings.Byobs);
+            HelpMarker(
+                str("", "可以让截图和录屏软件无法捕捉到你")
             );
         }
         
