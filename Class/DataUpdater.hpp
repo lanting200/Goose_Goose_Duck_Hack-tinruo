@@ -5,8 +5,10 @@
 #include"../Client.hpp"
 #include"../Class/Hack.hpp"
 #include"LocalPlayer.hpp"
+#include"../utils.hpp"
 
 extern Hack hack;
+extern Utils utils;
 
 /// <summary>
 /// Thread functions that update data.
@@ -108,9 +110,9 @@ private:
             return;
         }
 
+        //TODO: 穿墙没有正常工作, 另外需要在每次游戏开始的时候重置修改值
         hack.removeFogOfWar(&localPlayer->playerController);
-        //TODO: Bugged 会导致游戏崩溃
-        //hack.noclip(&localPlayer->playerController);
+        hack.noclip(&localPlayer->playerController);//TODO: Bugged 会导致游戏崩溃
         hack.speedHack(localPlayer);
     }
 

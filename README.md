@@ -4,8 +4,7 @@
 
 # 进程
 
-当前正在开发记录玩家死亡时附近的人的功能
-[Issue#18](https://github.com/Liuhaixv/Goose_Goose_Duck_Hack/issues/18)
+当前正在修复Bug
 
 # 功能
 ### 显示类
@@ -56,8 +55,7 @@ This project is currently active in development. Leave a star if you like it. Yo
 
 # Progress
 
-Developing new function, reveal players near the dead player
-[Issue#18](https://github.com/Liuhaixv/Goose_Goose_Duck_Hack/issues/18)
+Fixing bugs
 
 # Features
 ### Reveal Info

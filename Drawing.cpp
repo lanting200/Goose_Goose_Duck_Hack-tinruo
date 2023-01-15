@@ -701,7 +701,7 @@ void drawMenu2() {
             ImGui::SameLine();
             ImGui::SliderFloat(
                 str("Movement speed", "移速"),
-                &hackSettings.guiSettings.f_baseMovementSpeed,
+                &hackSettings.guiSettings.f_movementSpeed,
                 minSpeed,
                 minSpeed * 2
             );
@@ -882,7 +882,7 @@ void drawMenu() {
             ImGui::SameLine();
             ImGui::SliderFloat(
                 str("Movement speed", "移速"),
-                &hackSettings.guiSettings.f_baseMovementSpeed,
+                &hackSettings.guiSettings.f_movementSpeed,
                 minSpeed,
                 minSpeed * 2
             );
