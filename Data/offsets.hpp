@@ -62,7 +62,7 @@ namespace Offsets {
             namespace StaticField {
 
                 constexpr int64_t ptr_localPlayer = 0x0;
-                
+
                 constexpr int64_t f_movementSpeed = 0x10;
                 constexpr int64_t f_baseMovementSpeed = 0xC;//Read only
             }
@@ -87,13 +87,33 @@ namespace Offsets {
         }
         constexpr int64_t ptr_unknownClass0 = 0x30;
     }
+
+    namespace UICooldownButton {
+        constexpr int64_t f_cooldownTime = 0x70;
+    }
 }
 
 namespace GameAssembly {
-    namespace Class {
-        constexpr int64_t ptr_PlayerControllerClass = 0x3D97140;//Handlers_GameHandlers_PlayerHandlers_PlayerController_c *
-        constexpr int64_t ptr_LocalPlayerClass = 0x3D69DF0;//Handlers_GameHandlers_PlayerHandlers_LocalPlayer_c *
+    //RVA offsets
+    namespace Method {
+        namespace UICooldownButton {
+            constexpr int64_t Update = 0xEAD7E0;//void __stdcall UICooldownButton__Update(UICooldownButton_o *this, const MethodInfo *method)
+        }
     }
+
+    namespace Class {
+        constexpr int64_t ptr_PlayerControllerClass = 0x3BD48B0;//Handlers_GameHandlers_PlayerHandlers_PlayerController_c *
+        constexpr int64_t ptr_LocalPlayerClass = 0x3BA7B38;//Handlers_GameHandlers_PlayerHandlers_LocalPlayer_c *
+    }
+
+    namespace BytesPatch {
+        namespace CooldownTime {
+            constexpr int64_t address = GameAssembly::Method::UICooldownButton::Update + 0xA8;
+            constexpr std::string raw = "\x73";//xmm6
+            constexpr std::string removeCooldownTime = "\x53";//xmm2
+        }
+    }
+
     /// <summary>
     /// 通过下标返回PlayerController的偏移数组<para/>
     /// Returns int64_t array of offsets of PlayerController by its index
@@ -104,7 +124,7 @@ namespace GameAssembly {
         int64_t specialOffset = 0x30;
         specialOffset += index * 0x18;
 
-        std::vector<int64_t> offsets = { 
+        std::vector<int64_t> offsets = {
             GameAssembly::Class::ptr_PlayerControllerClass,
             Offsets::PlayerController::Class::ptr_staticFields,
             Offsets::PlayerController::Class::StaticField::playersListWithAgoraIDs,
@@ -116,11 +136,11 @@ namespace GameAssembly {
 
     static std::vector<int64_t> localPlayer() {
 
-             std::vector<int64_t> offsets = {
-            GameAssembly::Class::ptr_LocalPlayerClass,
-            Offsets::LocalPlayer::Class::ptr_staticFields,
-            Offsets::LocalPlayer::Class::StaticField::ptr_localPlayer,
-            0x0
+        std::vector<int64_t> offsets = {
+       GameAssembly::Class::ptr_LocalPlayerClass,
+       Offsets::LocalPlayer::Class::ptr_staticFields,
+       Offsets::LocalPlayer::Class::StaticField::ptr_localPlayer,
+       0x0
         };
 
 

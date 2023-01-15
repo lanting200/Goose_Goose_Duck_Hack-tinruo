@@ -137,7 +137,7 @@
     <ClInclude Include="Enum\EnumGameMaps.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="font.h">
+    <ClInclude Include="Class\BytesPatchUpdater.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
