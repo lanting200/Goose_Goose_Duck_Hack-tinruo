@@ -1,7 +1,7 @@
 ﻿#define STB_IMAGE_IMPLEMENTATION
 
 #include "Drawing.h"
-#include "Client.hpp"
+#include "Client.h"
 
 
 
@@ -1020,7 +1020,7 @@ void drawMenu() {
         //菜单3
         if (ImGui::BeginTabItem(str("Misc", "功能类")))
         {
-            ImGui::Checkbox(str("Remove fog of war", "隐藏战争迷雾"), &hackSettings.disableFogOfWar);
+            ImGui::Checkbox(str("Remove fog of war", "隐藏战争迷雾"), &hackSettings.guiSettings.b_disableFogOfWar);
             HelpMarker(
                 str("Remove shadows and let you see other players behind walls", "可以透过墙看到和听到其他玩家，隐藏视野阴影")
             );
@@ -1036,6 +1036,8 @@ void drawMenu() {
         //菜单4
         if (ImGui::BeginTabItem(str("README", "说明")))
         {
+            //显示版本信息
+            ImGui::Text(str("Version: ", "版本: "));ImGui::SameLine();ImGui::Text(hackSettings.guiSettings.version);
             ImGui::Text(str("This an open-source project from Liuhaixv", "这是一个来自Liuhaixv的开源项目"));
             ImGui::SameLine();
             if (ImGui::Button(str("Link to project", "查看项目"))) {

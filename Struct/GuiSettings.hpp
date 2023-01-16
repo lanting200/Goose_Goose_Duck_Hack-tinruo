@@ -1,5 +1,8 @@
 ﻿#pragma once
 struct GuiSettings {
+    //游戏版本
+    const char* version = "v0.6.3.2";
+
     //全局开关
     bool b_draw = true;
 
@@ -17,6 +20,9 @@ struct GuiSettings {
     //速度修改
     bool b_enableSpeedHack = false;
     float f_movementSpeed = -1;
+
+    //战争迷雾
+    bool b_disableFogOfWar = false;
 
     //debugmode
     bool b_debug = false;
