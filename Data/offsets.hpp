@@ -97,20 +97,21 @@ namespace GameAssembly {
     //RVA offsets
     namespace Method {
         namespace UICooldownButton {
-            constexpr int64_t Update = 0xEAD7E0;//void __stdcall UICooldownButton__Update(UICooldownButton_o *this, const MethodInfo *method)
+            constexpr int64_t Update = 0xF2D770;//void __stdcall UICooldownButton__Update(UICooldownButton_o *this, const MethodInfo *method)
         }
     }
 
     namespace Class {
-        constexpr int64_t ptr_PlayerControllerClass = 0x3BD48B0;//Handlers_GameHandlers_PlayerHandlers_PlayerController_c *
-        constexpr int64_t ptr_LocalPlayerClass = 0x3BA7B38;//Handlers_GameHandlers_PlayerHandlers_LocalPlayer_c *
+        constexpr int64_t ptr_PlayerControllerClass = 0x3CA6AC0;//Handlers_GameHandlers_PlayerHandlers_PlayerController_c *
+        constexpr int64_t ptr_LocalPlayerClass = 0x3C79808;//Handlers_GameHandlers_PlayerHandlers_LocalPlayer_c *
     }
 
     namespace BytesPatch {
         namespace CooldownTime {
-            constexpr int64_t address = GameAssembly::Method::UICooldownButton::Update + 0xA8;
-            constexpr std::string raw = "\x73";//xmm6
-            constexpr std::string removeCooldownTime = "\x53";//xmm2
+            constexpr int64_t address = GameAssembly::Method::UICooldownButton::Update + 0xB7;
+            constexpr byte raw[] = "\x0F\x82";
+            constexpr byte removeCooldownTime[] = "\xEB\x0E";//jmp
+            constexpr int bytesNum = 2;
         }
     }
 
