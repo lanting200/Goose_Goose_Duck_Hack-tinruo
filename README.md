@@ -1,14 +1,16 @@
 # 鹅鸭杀辅助
+[![支付宝](https://img.shields.io/badge/%E6%8D%90%E8%B5%A0-%E6%94%AF%E4%BB%98%E5%AE%9D-blue)](https://raw.githubusercontent.com/Liuhaixv/Goose_Goose_Duck_Hack/main/img/alipay.jpg)
+[![微信](https://img.shields.io/badge/%E6%8D%90%E8%B5%A0-%E5%BE%AE%E4%BF%A1-brightgreen)](https://raw.githubusercontent.com/Liuhaixv/Goose_Goose_Duck_Hack/main/img/wechat.jpg)
 
 鹅鸭杀外部辅助程序，目前持续更新中，可以点亮Star收藏关注一波。有功能需求可以提Issue，我都会回复。
 
 # 进程
 
-当前正在修复Bug
+添加自动完成所有任务的功能。
 
 # 计划
-1. 添加多语言支持，支持用户选择不同字库并重新加载
-2. 添加持久化配置文件支持，方便用户个性化设置颜色、设置等信息
+1. 显示当前所有的任务列表
+2. 添加多语言支持，支持用户选择不同字库并重新加载
 3. 添加自动识别地图功能
 
 # 功能
@@ -95,9 +97,6 @@ Fixing bugs
 
 # Notice
 I am not responsible for any problems caused by abusing this project
-
-# Reference
-[roy6307's Public Archive](https://github.com/roy6307/Goose-Goose-Goose)
 
 ---
 

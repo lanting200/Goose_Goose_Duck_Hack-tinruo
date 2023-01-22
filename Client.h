@@ -2,8 +2,9 @@
 
 #include "Memory.hpp"
 #include "Struct/HackSettings.hpp"
-#include "Class/PlayerController.h"
-#include"Class/LocalPlayer.hpp"
+#include "Class/Game/PlayerController.h"
+#include"Class/Game/LocalPlayer.hpp"
+#include "Class/Game/LobbySceneHandler.h"
 
 class Client
 {
@@ -11,16 +12,13 @@ public:
     HackSettings* hackSettings = nullptr;
 
     static const int n_players = 16;
+    LobbySceneHandler lobbySceneHandler;
     LocalPlayer localPlayer;
     std::vector<PlayerController*> playerControllers;
 
-    Client(Memory* memory, HackSettings* hackSettings);
+    Client(HackSettings* hackSettings);
 
     ~Client();
-
-    Memory* getMemory() {
-        return this->memory;
-    }
 
     /// <summary>
     /// 重置GUI设置
@@ -61,5 +59,4 @@ public:
     void printAllPlayersInfo(Utils* utils = nullptr);
 
 private:
-    Memory* memory = 0;
 };

@@ -3,6 +3,45 @@
 #include<vector>
 
 namespace Offsets {
+
+    //C#的string类
+    namespace System_String {
+        constexpr int64_t i_length = 0x10;//字符串的字符个数
+        constexpr int64_t firstChar = 0x14;//字符串的第一个起始字节
+    }
+
+    namespace GameTask {
+        constexpr int64_t taskId = 0x10;//string
+        constexpr int64_t taskDisplayName = 0x18;//string
+    }
+
+    namespace TasksHandler {
+        // Fields
+        constexpr int64_t tasks = 0x18;//GameTask[] tasks; // 0x18
+        constexpr int64_t tasksDictionary = 0x20;//readonly Dictionary<string, GameTask> tasksDictionary; // 0x20
+        constexpr int64_t taskUIPrefab = 0x28;//GameObject taskUIPrefab; // 0x28
+        constexpr int64_t taskList = 0x30; //Transform taskList; // 0x30
+        constexpr int64_t assignedTasks = 0x38;//Dictionary<string, GameTask> assignedTasks; // 0x38
+        constexpr int64_t audioSource = 0x40;//AudioSource EAPGEFFHCBE; // 0x40
+        constexpr int64_t timesReplenished = 0x48;// timesReplenished; // 0x48
+    }
+
+    namespace LobbySceneHandler {
+        namespace Class {
+            namespace StaticField {
+                constexpr int64_t Instance = 0x0;//LobbySceneHandler
+                constexpr int64_t  b_InGameScene = 0x8;
+                constexpr int64_t  b_ExploreMode = 0x9;
+                constexpr int64_t  i_CurrentMap = 0xC;//当前的地图
+                constexpr int64_t  b_IsPublicGame = 0x10;
+                constexpr int64_t  b_IsMicEnabled = 0x11;
+            }
+            constexpr int64_t ptr_staticFields = 0xB8;//TODO
+        }
+
+        constexpr int64_t ptr_tasksHandler = 0x40;//TasksHandler*
+    }
+
     namespace Rigidbody2D {
         namespace UnknownClass0 {
             namespace UnknownFields {
@@ -102,6 +141,7 @@ namespace GameAssembly {
     }
 
     namespace Class {
+        constexpr int64_t ptr_LobbySceneHandlerClass = 0x3C78BC8;//Handlers_LobbyHandlers_LobbySceneHandler_c *
         constexpr int64_t ptr_PlayerControllerClass = 0x3CA6AC0;//Handlers_GameHandlers_PlayerHandlers_PlayerController_c *
         constexpr int64_t ptr_LocalPlayerClass = 0x3C79808;//Handlers_GameHandlers_PlayerHandlers_LocalPlayer_c *
     }
@@ -144,6 +184,28 @@ namespace GameAssembly {
        0x0
         };
 
+        return offsets;
+    }
+
+    static std::vector<int64_t> lobbySceneHandler() {
+
+        std::vector<int64_t> offsets = {
+       GameAssembly::Class::ptr_LobbySceneHandlerClass,
+       Offsets::LobbySceneHandler::Class::ptr_staticFields,
+       Offsets::LobbySceneHandler::Class::StaticField::Instance,
+       0x0
+        };
+
+        return offsets;
+    }
+
+    static std::vector<int64_t> lobbySceneHandler_staticFiled() {
+
+        std::vector<int64_t> offsets = {
+       GameAssembly::Class::ptr_LobbySceneHandlerClass,
+       Offsets::LobbySceneHandler::Class::ptr_staticFields,
+       0x0
+        };
 
         return offsets;
     }

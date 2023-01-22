@@ -4,11 +4,12 @@
 
 #include"../Client.h"
 #include"../Class/Hack.hpp"
-#include"LocalPlayer.hpp"
+#include"./Game/LocalPlayer.hpp"
 #include"../utils.hpp"
 
 extern Hack hack;
 extern Utils utils;
+extern Memory memory;
 
 /// <summary>
 /// Thread functions that update data.
@@ -17,10 +18,30 @@ class DataUpdater {
 public:
     DataUpdater(Client* client) {
         this->client = client;
-        this->memory = client->getMemory();
     }
 
     int validPlayersNum = 0;
+
+    /// <summary>
+    /// 更新LobbySceneHandlerUpdater的线程函数
+    /// </summary>
+    void lobbySceneHandlerUpdater() {
+
+        LobbySceneHandler* lobbySceneHandler = &this->client->lobbySceneHandler;
+
+        bool updated = false;
+
+        while (true) {
+             updateLobbySceneHandler(lobbySceneHandler, &updated);
+
+             if (updated) {
+                 Sleep(1000);
+             }
+             else {
+                 Sleep(30);
+             }
+        }
+    }
 
     /// <summary>
     /// 更新玩家信息的线程函数<para/>
@@ -55,12 +76,27 @@ public:
     }
 private:
     Client* client = nullptr;
-    Memory* memory = nullptr;
 
     int64_t playerRole = NULL;
 
     bool b_localPlayerUpdated = false;
     bool b_localPlayerControllerUpdated = false;
+    bool b_lobbySceneHandlerUpdated = false;
+
+    void updateLobbySceneHandler(IN LobbySceneHandler* lobbySceneHandler, OUT bool* lobbySceneHandlerUpdated) {
+        std::vector<int64_t> offsets = GameAssembly::lobbySceneHandler();
+
+        int64_t lobbySceneHandlerAddr = memory.FindPointer(memory.gameAssemblyBaseAddress, offsets);
+
+        if (lobbySceneHandler == NULL) {
+            *lobbySceneHandlerUpdated = false;
+            lobbySceneHandler->reset();
+            return;
+        }
+
+        //Update localplayer
+        *lobbySceneHandlerUpdated = lobbySceneHandler->update(lobbySceneHandlerAddr);
+    }
 
     /// <summary>
     /// 更新本地玩家
@@ -73,7 +109,7 @@ private:
         //offsets.push_back(Offsets::LocalPlayer::ptr_playerController);
         //offsets.push_back(0x0);
 
-        int64_t localPlayerAddr = memory->FindPointer(memory->gameAssemblyBaseAddress, offsets);
+        int64_t localPlayerAddr = memory.FindPointer(memory.gameAssemblyBaseAddress, offsets);
 
         if (localPlayerAddr == NULL) {
             *localPlayerUpdated = false;
@@ -83,7 +119,7 @@ private:
         //Update localplayer
         *localPlayerUpdated = localPlayer->update(localPlayerAddr);
 
-        int64_t localPlayerController = memory->read_mem<int64_t>(localPlayerAddr + Offsets::LocalPlayer::ptr_playerController, NULL);
+        int64_t localPlayerController = memory.read_mem<int64_t>(localPlayerAddr + Offsets::LocalPlayer::ptr_playerController, NULL);
 
         //Update playerController
         if (updatePlayerController(&localPlayer->playerController, localPlayerController)) {
@@ -162,7 +198,7 @@ private:
 
             //获取内存中对应玩家槽位的实例地址
             std::vector<int64_t> offsets = GameAssembly::playerControllerByIndex(i);
-            int64_t playerControllerAddr = memory->FindPointer(memory->gameAssemblyBaseAddress, offsets);
+            int64_t playerControllerAddr = memory.FindPointer(memory.gameAssemblyBaseAddress, offsets);
 
             if (updatePlayerController(ptr_playerController, playerControllerAddr)) {
                 validPlayers++;

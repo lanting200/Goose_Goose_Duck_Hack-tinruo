@@ -24,7 +24,7 @@
 #include"./Class/GameProcessUpdater.hpp"
 #include"./Class/BytesPatchUpdater.hpp"
 
-#include"./Class/PlayerController.h"
+#include"./Class/Game/PlayerController.h"
 
 //Windows
 #include<Windows.h>
@@ -49,17 +49,17 @@ Client* g_client;
 //全局变量保存用户配置
 UserSettings userSettings;
 
+//初始化RPM工具类
+//Init RPM classes
+Memory memory;
+
 INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show) {
     {
         //修改设置
         //Edit hacksettings
         hackSettings.guiSettings.b_disableFogOfWar = false;
     }
-  
-    //初始化RPM工具类
-    //Init RPM classes
-    Memory memory;
-    Client client(&memory, &hackSettings);
+    Client client(&hackSettings);
     hack.setClient(&client);
 
     g_client = &client;
@@ -68,8 +68,8 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show) {
     //Init updaters
     HotkeyUpdater hotkeyUpdater(&hackSettings);
     DataUpdater dataUpdater(&client);
-    BytesPatchUpdater bytesUpdater(&memory);
-    MemoryUpdater memoryUpdater(&memory, &client, &hackSettings);
+    BytesPatchUpdater bytesUpdater;
+    MemoryUpdater memoryUpdater(& client, & hackSettings);
 
     //监听热键
     //Listen to keyboard
@@ -77,6 +77,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show) {
     //启动游戏内存数据更新线程
     //Game data updater
     std::thread playerControllerUpdater(&DataUpdater::playerControllerUpdater, &dataUpdater);
+    std::thread lobbySceneHandlerUpdater(&DataUpdater::lobbySceneHandlerUpdater, &dataUpdater);
     //启动字节补丁线程
     //Game process finder
     std::thread bytesPatchUpdater(&BytesPatchUpdater::bytesPatchUpdater, &bytesUpdater);

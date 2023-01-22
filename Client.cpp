@@ -6,14 +6,12 @@
 
 extern Hack hack;
 
-Client::Client(Memory* memory, HackSettings* hackSettings)
+Client::Client(HackSettings* hackSettings)
 {
-    this->memory = memory;
     this->hackSettings = hackSettings;
 
-    localPlayer.setMemory(this->memory);
     for (int i = 0; i < n_players; i++) {
-        playerControllers.push_back(new PlayerController(this->memory));
+        playerControllers.push_back(new PlayerController());
     }
 }
 
