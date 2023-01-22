@@ -17,6 +17,7 @@ extern Utils utils;
 extern HackSettings hackSettings;
 extern Client* g_client;
 
+extern UserSettings userSettings;
 float wbg = 1.0f;
 
 //#define str(eng,cn) (const char*)u8##cn
@@ -1029,20 +1030,21 @@ void drawMenu2() {
         break;
     case Tab::ESP:
         {
-            ImGui::Text(str("Button below is just for testing if overlay works", "下面的按钮目前只是为了测试绘制能否正常工作"));
+            /*ImGui::Text(str("Button below is just for testing if overlay works", "下面的按钮目前只是为了测试绘制能否正常工作"));
             ImGui::Checkbox(str("Enable ESP", "全局开关"), &hackSettings.guiSettings.b_enableESP);
             HelpMarker(
                 str("Create Issue to report bug if you can't see two green lines and yellow rect line", "如果你看不到屏幕上有横竖两条绿线以及环绕整个显示器的黄色矩形的话,请到Issue提交bug")
-            );
+            );*/
         }
   
         break;
     case Tab::README:
         {
-            ImGui::Text(str("This an open-source project from Liuhaixv", "这是一个来自Liuhaixv的开源项目"));
+            ImGui::Text(str("Version: ", "版本: ")); ImGui::SameLine(); ImGui::Text(hackSettings.guiSettings.version);
+            ImGui::Text(str("", "这是一个来自开源项目分支听弱"));
             ImGui::SameLine();
-            if (ImGui::Button(str("Link to project", "查看项目"))) {
-                ShellExecute(0, 0, "https://github.com/Liuhaixv/Goose_Goose_Duck_Hack", 0, 0, SW_SHOW);
+            if (ImGui::Button(str("", "加入QQ群"))) {
+                ShellExecute(0, 0, "https://jq.qq.com/?_wv=1027&k=u0NDUqHI", 0, 0, SW_SHOW);
             }
         }   
         break;

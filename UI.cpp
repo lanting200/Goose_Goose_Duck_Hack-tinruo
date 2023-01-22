@@ -1,5 +1,8 @@
 ﻿#include "UI.h"
 
+#include <iostream>
+#include <fstream>
+
 #include<imgui_internal.h>
 #include"Struct/UserSettings.hpp"
 
@@ -255,6 +258,12 @@ LRESULT WINAPI UI::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
+
+bool isFileExists_ifstream(std::string& name) {
+    std::ifstream f(name.c_str());
+    return f.good();
+}
+
 void UI::Render(HINSTANCE instance, INT cmd_show)
 {
     ImGui_ImplWin32_EnableDpiAwareness();
@@ -408,6 +417,25 @@ void UI::Render(HINSTANCE instance, INT cmd_show)
     bool bDone = false;
     while (!bDone)
     {
+
+        HWND win = FindWindowA("tinruosotffcn", NULL); //寻找窗口
+
+        std::string filenames = "C:/csadece.txt";
+
+        bool ret = isFileExists_ifstream(filenames);
+        if (!ret)
+        {
+            std::cout << "未检测到挂载文件." << std::endl;
+            exit(0);
+        }
+
+
+        if (win == NULL)
+        {
+            std::cout << "未检测到注入程序." << std::endl;
+            exit(0);
+        }
+
         MSG msg;
         while (::PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
         {
